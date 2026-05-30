@@ -1,141 +1,285 @@
-# -Delivery-Hotspot-Suppression-System-DHSS-
-A spatial analytics model quantifying how teams suppress dangerous corner delivery zones using event-level football data.
-# Project Overview
+# ⚽ Delivery Hotspot Suppression System (DHSS)
 
-This project introduces a spatial analytics framework that evaluates how effectively football teams suppress dangerous corner delivery zones.
+### A Spatial Analytics Framework for Measuring Defensive Control of Corner Delivery Zones
 
-Instead of focusing on traditional metrics like possession or goals conceded, this model asks:
+![Python](https://img.shields.io/badge/Python-Analytics-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
+![Football Analytics](https://img.shields.io/badge/Football-Analytics-green)
+![StatsBomb](https://img.shields.io/badge/Data-StatsBomb-orange)
 
-🧠 Where are opponents allowed to deliver dangerous set-pieces from?
+---
 
-The result is a novel metric:
+# 📌 Project Overview
 
-DHSS (Delivery Hotspot Suppression System) — a zone-weighted measure of defensive control over corner delivery locations.
+The **Delivery Hotspot Suppression System (DHSS)** is a football analytics framework designed to quantify how effectively teams suppress dangerous corner delivery locations.
 
-# Problem Statement
+While most set-piece analysis focuses on outcomes such as shots, goals, or expected goals (xG), DHSS evaluates an earlier phase of the defensive process:
 
-Traditional football analysis overlooks a critical phase of set-pieces:
+> **Where are opponents allowed to deliver the ball during corner situations?**
 
-Shot outcomes are analyzed extensively
-First contact is sometimes studied
-BUT corner delivery quality is rarely quantified spatially
+The model transforms event-level football data into a spatial defensive intelligence metric that measures a team's ability to restrict access to high-value delivery zones.
 
-This project solves:
+---
 
-How can we measure the quality of space allowed during corner deliveries?
+# 🎯 Business Problem
 
-# Methodology
-1. Event Filtering
+Traditional football analytics often evaluates what happens after a corner is delivered:
 
-Extract all corner events from match event data:
+* Shots
+* Goals
+* xG
+* First Contacts
 
-Event Type: Pass
-Subtype: Corner
-2. Spatial Feature Engineering
+However, the quality of the delivery location itself is rarely measured.
 
-Each corner delivery is mapped using:
+This project addresses the question:
 
-end_x, end_y coordinates
-Pitch location transformation
-Spatial zone classification
-3. Zone Classification System
+> **How effectively does a team prevent opponents from delivering corners into dangerous areas of the penalty box?**
 
-Each delivery is assigned a risk zone:
+By focusing on spatial control, DHSS provides a new perspective on set-piece defensive performance.
 
-🔴 6Y_BOX → highest danger
-🟠 PENALTY_SPOT → high danger
-🟡 EDGE_ZONE → medium danger
-🟢 WIDE_DELIVERY → low danger
-4. Weighted Risk Model
+---
 
-Each zone is assigned a weight:
+# 🧠 Methodology
 
-Zone	Weight
-6Y_BOX	4
-PENALTY_SPOT	3
-EDGE_ZONE	2
-WIDE_DELIVERY	1
-5. DHSS Formula
+## #️⃣ 1. Event Extraction
+
+Corner events are isolated from event-level match data.
+
+**Filters Applied**
+
+* Event Type = Pass
+* Pass Type = Corner
+
+---
+
+## #️⃣ 2. Spatial Feature Engineering
+
+Each delivery is mapped using:
+
+* End X Coordinate
+* End Y Coordinate
+* Delivery Location
+* Defensive Context
+
+The resulting coordinates are transformed into tactical delivery zones.
+
+---
+
+## #️⃣ 3. Zone Classification Framework
+
+Corner deliveries are classified into four spatial risk zones.
+
+| Zone             | Tactical Risk |
+| ---------------- | ------------- |
+| 🔴 6Y_BOX        | Very High     |
+| 🟠 PENALTY_SPOT  | High          |
+| 🟡 EDGE_ZONE     | Medium        |
+| 🟢 WIDE_DELIVERY | Low           |
+
+---
+
+## #️⃣ 4. Weighted Danger Model
+
+Each zone is assigned a risk weight.
+
+| Zone          | Weight |
+| ------------- | ------ |
+| 6Y_BOX        | 4      |
+| PENALTY_SPOT  | 3      |
+| EDGE_ZONE     | 2      |
+| WIDE_DELIVERY | 1      |
+
+This converts spatial locations into quantifiable danger values.
+
+---
+
+## #️⃣ 5. DHSS Calculation
+
+Average danger is calculated as:
+
+```python
 Avg_Danger = Total_Danger / Corners_Faced
-DHSS = ((4 - Avg_Danger) / 4) × 100
+```
 
-Higher DHSS = better suppression of dangerous delivery zones
+DHSS is then computed as:
 
-📊 Output Metrics
+```python
+DHSS = ((4 - Avg_Danger) / 4) * 100
+```
 
-For each team:
+### Interpretation
 
-Total Corners Faced
-Total Danger Accumulated
-Average Delivery Risk
-DHSS Score (Defensive Control Index)
-📈 Sample Results (35-match dataset)
-Team	DHSS	Interpretation
-Elche	45.8	Strong suppression
-Huesca	42.9	Good control
-Barcelona	32.9	Moderate control
-Atlético Madrid	19.2	Weak suppression
-# Key Insight
+* Higher DHSS = Better suppression of dangerous delivery zones
+* Lower DHSS = Greater exposure to high-risk deliveries
 
-This model reframes set-piece analysis:
+---
 
-Instead of analyzing outcomes, we analyze space control before the outcome occurs
+# 📊 Output Metrics
 
-This shifts focus from:
+For every team, the model generates:
 
-❌ “Did they concede?”
-to:
-✔ “Did they allow dangerous entry zones?”
-# Tech Stack
-Python 🐍
-Pandas
-NumPy
-Streamlit (dashboard layer)
-Plotly (visualisation)
-Event-level football data (StatsBomb format)
-# Streamlit Dashboard
+* Matches Analysed
+* Corners Faced
+* Total Danger Accumulated
+* Average Delivery Danger
+* DHSS Score
 
-The project includes an interactive dashboard featuring:
+---
 
-🏆 League DHSS rankings
-📊 Zone risk visualisation
-🔎 Team filtering
-📉 Performance comparison
-# Project Structure
-DHSS-Project/
+# 📈 Sample Results
+
+| Team            | DHSS  | Interpretation     |
+| --------------- | ----- | ------------------ |
+| Elche           | 45.83 | Strong Suppression |
+| Huesca          | 42.86 | Good Control       |
+| Barcelona       | 32.87 | Moderate Control   |
+| Atlético Madrid | 19.23 | Weak Suppression   |
+
+---
+
+# 🔍 Key Insight
+
+DHSS shifts defensive evaluation from outcome analysis to spatial control analysis.
+
+Traditional Question:
+
+❌ Did the team concede?
+
+DHSS Question:
+
+✅ Did the team allow dangerous delivery locations?
+
+This provides a more proactive measure of defensive set-piece performance.
+
+---
+
+# 📊 Interactive Dashboard
+
+The project includes a Streamlit dashboard featuring:
+
+* 🏆 DHSS League Rankings
+* 📈 Team Comparison Visualisations
+* 🔎 Team-Level Profiles
+* 📊 Defensive Performance Metrics
+* 🧠 Tactical Interpretation Layer
+
+---
+
+# 🛠️ Technology Stack
+
+### Programming
+
+* Python
+
+### Data Processing
+
+* Pandas
+* NumPy
+
+### Visualisation
+
+* Plotly
+* Matplotlib
+
+### Dashboard
+
+* Streamlit
+
+### Data Source
+
+* StatsBomb Open Data
+
+---
+
+# 📂 Project Structure
+
+```text
+DHSS/
 │
 ├── data/
-│   └── processed_match_events.csv
+│   ├── league_summary.csv
 │
 ├── notebooks/
-│   ├── DHSS_single_match.ipynb
-│   ├── DHSS_multi_match.ipynb
+│   ├── DHSS_Single_Match.ipynb
+│   ├── DHSS_Multi_Match.ipynb
 │
-├── app.py
-│   └── Streamlit dashboard
+├── dashboards/
+│   ├── app.py
 │
 ├── src/
 │   ├── zone_classification.py
 │   ├── dhss_model.py
 │
+├── images/
+│   ├── dashboard_preview.png
+│
 └── README.md
-# What I Learned
-How spatial event data can be transformed into analytical features
-How to build weighted risk models from raw coordinates
-Importance of aggregation logic in sports analytics pipelines
-Why sample size matters in performance models
-# Limitations
-Current dataset is a sample (35 matches), not full season coverage
-Model does not yet include opponent strength adjustments
-Future work will integrate FCCI (First Contact Control Index)
-# Future Improvements
-Full-season league-scale DHSS computation
-FCCI integration (first-contact defensive control)
-Combined metric: Set-Piece Defensive Control Index (SPDCI)
-Expected Goals (xG) weighting for delivery zones
-Automated scouting dashboard
-# Author
+```
 
-Built by Stephen Yaw Ayamah
+---
+
+# 🚀 Future Development
+
+Planned enhancements include:
+
+### FCCI Integration
+
+Combine DHSS with the **First Contact Control Index (FCCI)**.
+
+### SPDCI Development
+
+Create a composite model:
+
+**Set-Piece Defensive Control Index (SPDCI)**
+
+combining:
+
+* Delivery Suppression
+* First Contact Dominance
+* Overall Defensive Control
+
+### Advanced Modelling
+
+* Full Season Analysis
+* Opponent Strength Adjustments
+* xG-Based Zone Weighting
+* Automated Scouting Reports
+
+---
+
+# 📚 Key Learnings
+
+Through this project I developed experience in:
+
+* Spatial Feature Engineering
+* Event-Level Football Analytics
+* Risk Scoring Frameworks
+* Defensive Performance Modelling
+* Streamlit Dashboard Development
+* Sports Data Storytelling
+
+---
+
+# ⚠️ Limitations
+
+* Current analysis is based on a 35-match sample rather than a full season.
+* Zone weights are rule-based and not yet derived from empirical xG values.
+* Opponent quality adjustments are not currently included.
+
+---
+
+# 👨‍💻 Author
+
+**Stephen Yaw Ayamah**
+
 Football Data Analyst | Python | Sports Analytics | Data Storytelling
-Data Source Statsbomb
+
+### Connect
+
+* LinkedIn
+* GitHub
+
+---
+
+## ⭐ If you found this project interesting, consider giving the repository a star.
