@@ -1,0 +1,34 @@
+
+```text
+Delivery-Hotspot-Suppression-System-DHSS/
+│
+├── data/
+│   ├── raw/
+│   │   └── StatsBomb event data
+│   │
+│   └── processed/
+│       └── league_summary.csv
+│
+├── notebooks/
+│   ├── 01_DHSS_Single_Match_Analysis.ipynb
+│   ├── 02_DHSS_Multi_Match_Analysis.ipynb
+│   └── 03_DHSS_League_Analysis.ipynb
+│
+├── dashboards/
+│   └── app35.py
+│
+├── images/
+│   ├── dashboard_overview.png
+│   ├── dhss_rankings.png
+│   └── methodology.png
+│
+├── src/
+│   ├── data_loader.py
+│   ├── zone_classification.py
+│   ├── danger_scoring.py
+│   └── dhss_model.py
+│
+├── README.md
+├── requirements.txt
+└── LICENSE
+```
