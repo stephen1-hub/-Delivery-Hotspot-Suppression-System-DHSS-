@@ -163,7 +163,7 @@ The project includes a Streamlit dashboard featuring:
 * 🔎 Team-Level Profiles
 * 📊 Defensive Performance Metrics
 * 🧠 Tactical Interpretation Layer
-
+# live demo: https://zdk7npu5tfbz9pymgcsfr7.streamlit.app/
 ---
 
 # 🛠️ Technology Stack
