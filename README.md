@@ -138,4 +138,4 @@ Automated scouting dashboard
 
 Built by Stephen Yaw Ayamah
 Football Data Analyst | Python | Sports Analytics | Data Storytelling
-Data Source Statsbomo
+Data Source Statsbomb
